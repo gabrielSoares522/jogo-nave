@@ -1,11 +1,11 @@
 # jogo-nave
-![screenShot01](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_01.png)
-![screenShot02](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_02.png)
-![screenShot03](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_03.png)
-![screenShot04](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_04.png)
-![screenShot05](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_05.png)
-![screenShot06](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_06.png)
-![screenShot07](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_07.png)
+![screenShot01](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_01.png){:width="50%"}
+![screenShot02](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_02.png){:width="50%"}
+![screenShot03](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_03.png){:width="50%"}
+![screenShot04](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_04.png){:width="50%"}
+![screenShot05](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_05.png){:width="50%"}
+![screenShot06](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_06.png){:width="50%"}
+![screenShot07](https://github.com/gabrielSoares522/jogo-nave/blob/master/imagens/Screenshot_07.png){:width="50%"}
 Esse projeto é um jogo onde o objetivo do jogador é desviar dos misseis que tentam acertar a sua nave durante o máximo de tempo possivel.
 
-[download](https://docs.google.com/uc?export=download&id=1cJpI2dl-SpODTofNyzB_W71K-jFizVYD)
+[baixar o jogo](https://docs.google.com/uc?export=download&id=1cJpI2dl-SpODTofNyzB_W71K-jFizVYD)
