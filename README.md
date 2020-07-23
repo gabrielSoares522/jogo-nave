@@ -1,7 +1,7 @@
 # jogo-nave
 Esse projeto é um jogo onde o objetivo do jogador é desviar dos misseis que tentam acertar a sua nave durante o máximo de tempo possivel.
 
-[baixar versão mobile](https://docs.google.com/uc?export=download&id=1cJpI2dl-SpODTofNyzB_W71K-jFizVYD)
+[baixar versão mobile](https://docs.google.com/uc?export=download&id=1cJpI2dl-SpODTofNyzB_W71K-jFizVYD)<br/>
 [baixar versão desktop](https://docs.google.com/uc?export=download&id=1LyiC1NQNKGfTElzhJB2hS3XvgjYqFAR8)
 
 ## Screenshots
