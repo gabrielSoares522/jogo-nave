@@ -152,6 +152,7 @@ public class adm : MonoBehaviour {
     public void finalizar()
     {
         dinheiro += 40;
+        txtDinheiro.text = "dinheiro: "+ dinheiro.ToString();
         mostrar(telas[2]);
         fim = true;
         Time.timeScale = 0;
