@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using UnityEngine.Advertisements;
 public class adm : MonoBehaviour {
     #region variaveis
     #region publico
     [Header ("Loja")]
-    [SerializeField] public Nave[] lojaNaves;
-    [SerializeField] public buffLoja[] lojaBuffs;
+    [SerializeField] public NaveLoja[] lojaNaves;
+    [SerializeField] public BuffLoja[] lojaBuffs;
     [SerializeField] public int naveEscolhida;
     [SerializeField] public int indexNave;
     [SerializeField] public Image mostraNave;
@@ -52,11 +52,39 @@ public class adm : MonoBehaviour {
     //Color corNave;
     //Color corInimigos;
     #endregion
+
+    [SerializeField] string _androidGameId;
+    [SerializeField] string _iOSGameId;
+    [SerializeField] bool _testMode = true;
+    private string _gameId;
     #endregion
 
-    #region Start
+    void Awake(){
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+    }
+
+    public void InitializeAds()
+    {
+        /*_gameId = (Application.platform == RuntimePlatform.IPhonePlayer)
+            ? _iOSGameId
+            : _androidGameId;*/
+        _gameId = _androidGameId;
+        Advertisement.Initialize(_gameId, _testMode, this);
+    }
+ 
+    public void OnInitializationComplete()
+    {
+        lblTempo.text = "Ok";
+        Debug.Log("Unity Ads initialization complete.");
+    }
+ 
+    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    {
+        lblTempo.text = "Fail";
+        Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+    }
     void Start() {
-        contador.zerar();
+        Contador.zerar();
         nave = GameObject.Find("nave").transform;
         cronometroBuff = Time.time;
         cronometroMissil = Time.time;
@@ -77,9 +105,7 @@ public class adm : MonoBehaviour {
         }
         #endregion
     }
-    #endregion
 
-    #region Update
     void Update() {
         #region spawn
         #region spawn missil
@@ -119,85 +145,60 @@ public class adm : MonoBehaviour {
             setaAux.GetComponent<seta>().alvo = buffAux.transform;
         }
         #endregion
-
         #endregion
         
-        lblTimer.text = contador.atualizar();
+        lblTimer.text = Contador.atualizar();
 
         #region fim jogo
         if (fim) {
-            #region anuncios
-
-            #endregion
-
-            lblTempo.text = "Tempo: "+contador.tempo();
-            lblMTempo.text = "Melhor Tempo: "+contador.melhorTempo();
+            InitializeAds();
+            //lblTempo.text = "Tempo: "+Contador.tempo();
+            lblMTempo.text = "Melhor Tempo: "+Contador.melhorTempo();
             if (Input.GetKeyDown("r")) {
                 reiniciar();
             }
         }
         #endregion
     }
-    #endregion
 
     #region funcoes botoes
-    #region iniciar
     public void iniciar() {
         Time.timeScale = 1;
         mostrar(telas[1]);
     }
-    #endregion
 
-    #region finalizar
-    public void finalizar()
-    {
+    public void finalizar() {
         dinheiro += 40;
         txtDinheiro.text = "dinheiro: "+ dinheiro.ToString();
         mostrar(telas[2]);
         fim = true;
         Time.timeScale = 0;
     }
-    #endregion
 
-    #region reiniciar
-    public void reiniciar()
-    {
+    public void reiniciar() {
         salvarProgresso();
         SceneManager.LoadScene(0);
     }
-    #endregion
 
-    #region abrirLoja
-    public void abrirLoja()
-    {
+    public void abrirLoja() {
         mostrar(telas[3]);
     }
-    #endregion
 
-    #region abrirOpcoes
-    public void abrirOpcoes()
-    {
+    public void abrirOpcoes() {
         mostrar(telas[4]);
     }
-    #endregion
 
-    #region voltar
-    public void voltarTela()
-    {
+    public void voltarTela() {
         mostrar(tl_Anterior);
     }
-
-    #endregion
     #endregion
 
     #region funcoes tela
-    public void esconder(Transform tela)
-    {
+    public void esconder(Transform tela) {
         tela.gameObject.SetActive(false);
     }
 
-    public void mostrar(Transform tela)
-    {
+    public void mostrar(Transform tela) {
         for (int i = 0; i < telas.Length; i++)
         {
             esconder(telas[i]);
@@ -271,7 +272,7 @@ public class adm : MonoBehaviour {
         for (int i = 0; i < lojaBuffs.Length; i++)  {
             buffsComprados[i]=lojaBuffs[i].comprado;
         }
-        dadosJogo progresso = new dadosJogo(dinheiro,naveEscolhida,navesCompradas,buffsComprados,mutado, contador.melhor.horas, contador.melhor.minutos, contador.melhor.segundos);
+        dadosJogo progresso = new dadosJogo(dinheiro,naveEscolhida,navesCompradas,buffsComprados,mutado, Contador.melhor.horas, Contador.melhor.minutos, Contador.melhor.segundos);
 
         salvarDados.executarSalvar(progresso);
     }
@@ -288,9 +289,9 @@ public class adm : MonoBehaviour {
         //corNave = progresso.corNave;
         //corInimigos = progresso.corInimigos;
 
-        contador.melhor.horas = progresso.recordeH;
-        contador.melhor.minutos = progresso.recordeM;
-        contador.melhor.segundos = progresso.recordeS;
+        Contador.melhor.horas = progresso.recordeH;
+        Contador.melhor.minutos = progresso.recordeM;
+        Contador.melhor.segundos = progresso.recordeS;
         
         for (int i = 0; i < progresso.navesCompradas.Length; i++) {
             lojaNaves[i].comprado = progresso.navesCompradas[i];
@@ -308,90 +309,3 @@ public class adm : MonoBehaviour {
     }
     #endregion
 }
-
-#region classe nave
-[System.Serializable]
-public class Nave {
-    public Sprite textura;
-    public string nome;
-    public bool comprado;
-    public float preco;
-}
-#endregion
-
-#region classe buff
-[System.Serializable]
-public class buffLoja
-{
-    public Sprite textura;
-    public string nome;
-    public bool comprado;
-    public float preco;
-}
-#endregion
-
-#region classe contador
-public static class contador {
-    static relogio cronometro = new relogio();
-    public static relogio melhor = new relogio();
-
-    public static void zerar() {
-        cronometro = new relogio();
-    }
-
-    public static string atualizar()
-    {
-        cronometro.segundos += Time.deltaTime;
-
-        if (cronometro.segundos >= 60) {
-            cronometro.minutos++;
-            cronometro.segundos = 0;
-        }
-        else
-        {
-            if (cronometro.minutos >= 60) {
-                cronometro.horas++;
-                cronometro.minutos = 0;
-            }
-        }
-        return tempo();
-    }
-    public static string tempo() {
-        return cronometro.horas.ToString("00") + ":" + cronometro.minutos.ToString("00") + ":" + cronometro.segundos.ToString("00");
-    }
-    public static string melhorTempo() {
-        if (cronometro.horas >= melhor.horas) {
-            if (cronometro.horas == melhor.horas) {
-                if (cronometro.minutos >= melhor.minutos) {
-                    if (cronometro.minutos == melhor.minutos) {
-                        if (cronometro.segundos >= melhor.segundos) {
-                            melhor = cronometro;
-                        }
-                    }
-                    else {
-                        melhor = cronometro;
-                    }
-                }
-            }
-            else {
-                melhor = cronometro;
-            }
-        }
-
-        return melhor.horas.ToString("00") + ":" + melhor.minutos.ToString("00") + ":" + melhor.segundos.ToString("00");
-    }
-
-    [System.Serializable]
-    public class relogio {
-        public float horas = 0;
-        public float minutos = 0;
-        public float segundos = 0;
-
-        public relogio() {
-            horas = 0;
-            minutos = 0;
-            segundos = 0;
-        }
-    }
-}
-#endregion
