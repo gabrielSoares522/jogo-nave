@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public static class Contador {
-    static Relogio cronometro = new Relogio();
+    public static Relogio cronometro = new Relogio();
     public static Relogio melhor = new Relogio();
 
     public static void zerar() {

@@ -32,6 +32,7 @@ public class adm : MonoBehaviour {
     [SerializeField] public Text lblTempo;
     [SerializeField] public Text lblMTempo;
     [SerializeField] public Text lblTimer;
+    [SerializeField] public Text lblGanho;
     [SerializeField] public Transform[] telas;
     [SerializeField] public bool fim;
     [SerializeField] public Transform tl_Atual = null;
@@ -83,6 +84,7 @@ public class adm : MonoBehaviour {
         lblTempo.text = "Fail";
         Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
     }
+
     void Start() {
         Contador.zerar();
         nave = GameObject.Find("nave").transform;
@@ -152,8 +154,6 @@ public class adm : MonoBehaviour {
         #region fim jogo
         if (fim) {
             InitializeAds();
-            //lblTempo.text = "Tempo: "+Contador.tempo();
-            lblMTempo.text = "Melhor Tempo: "+Contador.melhorTempo();
             if (Input.GetKeyDown("r")) {
                 reiniciar();
             }
@@ -168,8 +168,12 @@ public class adm : MonoBehaviour {
     }
 
     public void finalizar() {
-        dinheiro += 40;
-        txtDinheiro.text = "dinheiro: "+ dinheiro.ToString();
+        int ganho = (int)((Contador.cronometro.horas*60+Contador.cronometro.minutos)*60+Contador.cronometro.segundos);
+        dinheiro += ganho;
+        txtDinheiro.text = "dinheiro: " + dinheiro.ToString();
+        lblGanho.text = "ganho: +" + ganho.ToString();
+        lblTempo.text = "Tempo: " + Contador.tempo();
+        lblMTempo.text = "Melhor Tempo: "+Contador.melhorTempo();
         mostrar(telas[2]);
         fim = true;
         Time.timeScale = 0;
