@@ -54,10 +54,8 @@ public class adm : MonoBehaviour {
     //Color corInimigos;
     #endregion
 
-    [SerializeField] string _androidGameId;
-    [SerializeField] string _iOSGameId;
     [SerializeField] bool _testMode = true;
-    private string _gameId;
+    private const string _gameId = "2983441";
     #endregion
 
     void Awake(){
@@ -66,16 +64,18 @@ public class adm : MonoBehaviour {
 
     public void InitializeAds()
     {
-        /*_gameId = (Application.platform == RuntimePlatform.IPhonePlayer)
-            ? _iOSGameId
-            : _androidGameId;*/
-        _gameId = _androidGameId;
-        Advertisement.Initialize(_gameId, _testMode, this);
+        Advertisement.Initialize(_gameId);
+    }
+
+    public void PlayAd(){
+        if (Advertisement.IsReady("endGame"))
+        {
+            Advertisement.Show("endGame");
+        }
     }
  
     public void OnInitializationComplete()
     {
-        lblTempo.text = "Ok";
         Debug.Log("Unity Ads initialization complete.");
     }
  
@@ -86,6 +86,8 @@ public class adm : MonoBehaviour {
     }
 
     void Start() {
+        
+        InitializeAds();
         Contador.zerar();
         nave = GameObject.Find("nave").transform;
         cronometroBuff = Time.time;
@@ -153,7 +155,6 @@ public class adm : MonoBehaviour {
 
         #region fim jogo
         if (fim) {
-            InitializeAds();
             if (Input.GetKeyDown("r")) {
                 reiniciar();
             }
@@ -177,6 +178,7 @@ public class adm : MonoBehaviour {
         mostrar(telas[2]);
         fim = true;
         Time.timeScale = 0;
+        PlayAd();
     }
 
     public void reiniciar() {
